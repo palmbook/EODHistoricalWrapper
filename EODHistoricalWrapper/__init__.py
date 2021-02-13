@@ -34,8 +34,10 @@ class EODHistorical:
         def __init__(self, api_key, symbol):
             # Get Fundamentals
             res = requests.get('https://eodhistoricaldata.com/api/fundamentals/%s?api_token=%s' % (symbol, api_key))
+            if res.status_code == 404:
+                raise KeyError('Symbol not Found.')
             if (res.status_code >= 300) | (res.status_code < 200):
-                raise('Connection Error')
+                raise ConnectionError('Connection Error')
             
             data = res.json()
             
@@ -52,26 +54,34 @@ class EODHistorical:
     class Historical:
         def __init__(self, api_key, symbol):
             res = requests.get('https://eodhistoricaldata.com/api/shorts/%s?api_token=%s' % (symbol, api_key))
+            if res.status_code == 404:
+                raise KeyError('Symbol not Found.')
             if (res.status_code >= 300) | (res.status_code < 200):
-                raise('Connection Error')
+                raise ConnectionError('Connection Error')
             
             self.short_interest = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/div/%s?api_token=%s' % (symbol, api_key))
+            if res.status_code == 404:
+                raise KeyError('Symbol not Found.')
             if (res.status_code >= 300) | (res.status_code < 200):
-                raise('Connection Error')
+                raise ConnectionError('Connection Error')
             
             self.dividends = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/splits/%s?api_token=%s' % (symbol, api_key))
+            if res.status_code == 404:
+                raise KeyError('Symbol not Found.')
             if (res.status_code >= 300) | (res.status_code < 200):
-                raise('Connection Error')
+                raise ConnectionError('Connection Error')
             
             self.splits = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/eod/%s?api_token=%s' % (symbol, api_key))
+            if res.status_code == 404:
+                raise KeyError('Symbol not Found.')
             if (res.status_code >= 300) | (res.status_code < 200):
-                raise('Connection Error')
+                raise ConnectionError('Connection Error')
             
             self.prices = pd.read_csv(StringIO(res.text))[:-1]
             
