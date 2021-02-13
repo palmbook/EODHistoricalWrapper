@@ -24,7 +24,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/palmbook/EODHistoricalWrapper",
-    download_url = 'https://github.com/palmbook/EODHistoricalWrapper/archive/v0.0.1b.tar.gz',
+    download_url = 'https://github.com/palmbook/EODHistoricalWrapper/archive/v0.0.1c.tar.gz',
     keywords = ['EODHistorical', 'Stock', 'Finance'],
     classifiers=[
         'Development Status :: 3 - Alpha',
