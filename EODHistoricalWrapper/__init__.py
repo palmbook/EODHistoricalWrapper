@@ -35,8 +35,8 @@ class EODHistorical:
             # Get Fundamentals
             res = requests.get('https://eodhistoricaldata.com/api/fundamentals/%s?api_token=%s' % (symbol, api_key))
 
-            if (res.status_code >= 300) | (res.status_code < 200):
-                raise ConnectionError('Connection Error')
+            if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
+                raise ConnectionError('Fundamentals: Connection Error')
             
             if res.status_code == 404:
                 if allow_empty:
@@ -68,8 +68,8 @@ class EODHistorical:
         def __init__(self, api_key, symbol, allow_empty):
             res = requests.get('https://eodhistoricaldata.com/api/shorts/%s?api_token=%s' % (symbol, api_key))
             
-            if (res.status_code >= 300) | (res.status_code < 200):
-                raise ConnectionError('Connection Error')
+            if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
+                raise ConnectionError('Short Interests: Connection Error')
             
             if res.status_code == 404:
                 if allow_empty:
@@ -80,8 +80,8 @@ class EODHistorical:
                 self.short_interest = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/div/%s?api_token=%s' % (symbol, api_key))
-            if (res.status_code >= 300) | (res.status_code < 200):
-                raise ConnectionError('Connection Error')
+            if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
+                raise ConnectionError('Dividends: Connection Error')
             
             if res.status_code == 404:
                 if allow_empty:
@@ -92,8 +92,8 @@ class EODHistorical:
                 self.dividends = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/splits/%s?api_token=%s' % (symbol, api_key))
-            if (res.status_code >= 300) | (res.status_code < 200):
-                raise ConnectionError('Connection Error')
+            if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
+                raise ConnectionError('Splits: Connection Error')
             
             if res.status_code == 404:
                 if allow_empty:
@@ -104,8 +104,8 @@ class EODHistorical:
                 self.splits = pd.read_csv(StringIO(res.text))[:-1]
             
             res = requests.get('https://eodhistoricaldata.com/api/eod/%s?api_token=%s' % (symbol, api_key))
-            if (res.status_code >= 300) | (res.status_code < 200):
-                raise ConnectionError('Connection Error')
+            if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
+                raise ConnectionError('EOD: Connection Error')
             
             if res.status_code == 404:
                 if allow_empty:
