@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="EODHistoricalWrapper",
     packages = ['EODHistoricalWrapper'],
-    version="0.0.1c",
+    version="0.0.2",
     license='MIT',
     author="Chakrit Yau",
     author_email="palmbook@gmail.com",
