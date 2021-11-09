@@ -54,15 +54,61 @@ class EODHistorical:
             else:
                 data = res.json()
                 
-                self.general = data['General']
-                self.highlights = data['Highlights']
-                self.valuation = data['Valuation']
-                self.sharesstats = data['SharesStats']
-                self.technicals = data['Technicals']
-                self.splitsdividends = data['SplitsDividends']
+                if 'General' in data.keys():
+                    self.general = data['General']
+                elif allow_empty:
+                    self.general = None
+                else:
+                    raise KeyError('Cannot retrieve General for Symbol.')
+                    
+                if 'Highlights' in data.keys():
+                    self.highlights = data['Highlights']
+                elif allow_empty:
+                    self.highlights = None
+                else:
+                    raise KeyError('Cannot retrieve Highlights for Symbol.')
                 
-                self.earnings = EODHistorical.Fundamentals.Earnings(data['Earnings'])
-                self.financials = EODHistorical.Fundamentals.Financials(data['Financials'])
+                if 'Valuation' in data.keys():
+                    self.valuation = data['Valuation']
+                elif allow_empty:
+                    self.valuation = None
+                else:
+                    raise KeyError('Cannot retrieve Valuation for Symbol.')
+                    
+                if 'SharesStats' in data.keys():
+                    self.sharesstats = data['SharesStats']
+                elif allow_empty:
+                    self.sharesstats = None
+                else:
+                    raise KeyError('Cannot retrieve SharesStats for Symbol.')
+                    
+                if 'Technicals' in data.keys():
+                    self.technicals = data['Technicals']
+                elif allow_empty:
+                    self.technicals = None
+                else:
+                    raise KeyError('Cannot retrieve Technicals for Symbol.')
+                
+                if 'SplitsDividends' in data.keys():
+                    self.splitsdividends = data['SplitsDividends']
+                elif allow_empty:
+                    self.splitsdividends = None
+                else:
+                    raise KeyError('Cannot retrieve SplitsDividends for Symbol.')
+                
+                if 'Earnings' in data.keys():
+                    self.earnings = EODHistorical.Fundamentals.Earnings(data['Earnings'])
+                elif allow_empty:
+                    self.earnings = None
+                else:
+                    raise KeyError('Cannot retrieve Earnings for Symbol.')
+                
+                if 'Financials' in data.keys():
+                    self.financials = EODHistorical.Fundamentals.Financials(data['Financials'])
+                elif allow_empty:
+                    self.financials = None
+                else:
+                    raise KeyError('Cannot retrieve Financials for Symbol.')
         
     class Historical:
         def __init__(self, api_key, symbol, allow_empty):
