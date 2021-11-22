@@ -118,10 +118,11 @@ class EODHistorical:
                 raise ConnectionError('Short Interests: Connection Error')
             
             if res.status_code == 404:
-                if allow_empty:
-                    self.short_interest = None
-                else:
-                    raise KeyError('Cannot retrieve Short Interests for Symbol.')
+                #if allow_empty:
+                #    self.short_interest = None
+                #else:
+                #    raise KeyError('Cannot retrieve Short Interests for Symbol.')
+                self.short_interest = pd.DataFrame([])
             else:
                 self.short_interest = pd.read_csv(StringIO(res.text))[:-1]
             
