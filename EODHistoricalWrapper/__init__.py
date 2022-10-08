@@ -112,7 +112,7 @@ class EODHistorical:
         
     class Historical:
         def __init__(self, api_key, symbol, allow_empty):
-            res = requests.get('https://eodhistoricaldata.com/api/shorts/%s?api_token=%s' % (symbol, api_key))
+            res = requests.get('https://eodhistoricaldata.com/api/shorts/%s?api_token=%s&fmt=json' % (symbol, api_key))
             
             if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
                 raise ConnectionError('Short Interests: Connection Error')
@@ -124,9 +124,9 @@ class EODHistorical:
                 #    raise KeyError('Cannot retrieve Short Interests for Symbol.')
                 self.short_interest = pd.DataFrame([])
             else:
-                self.short_interest = pd.read_csv(StringIO(res.text))[:-1]
+                self.short_interest = pd.DataFrame(res.json())
             
-            res = requests.get('https://eodhistoricaldata.com/api/div/%s?api_token=%s' % (symbol, api_key))
+            res = requests.get('https://eodhistoricaldata.com/api/div/%s?api_token=%s&fmt=json' % (symbol, api_key))
             if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
                 raise ConnectionError('Dividends: Connection Error')
             
@@ -136,9 +136,9 @@ class EODHistorical:
                 else:
                     raise KeyError('Cannot retrieve Dividends for Symbol.')
             else:
-                self.dividends = pd.read_csv(StringIO(res.text))[:-1]
+                self.dividends = pd.DataFrame(res.json())
             
-            res = requests.get('https://eodhistoricaldata.com/api/splits/%s?api_token=%s' % (symbol, api_key))
+            res = requests.get('https://eodhistoricaldata.com/api/splits/%s?api_token=%s&fmt=json' % (symbol, api_key))
             if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
                 raise ConnectionError('Splits: Connection Error')
             
@@ -148,9 +148,9 @@ class EODHistorical:
                 else:
                     raise KeyError('Cannot retrieve Splits for Symbol.')
             else:
-                self.splits = pd.read_csv(StringIO(res.text))[:-1]
+                self.splits = pd.DataFrame(res.json())
             
-            res = requests.get('https://eodhistoricaldata.com/api/eod/%s?api_token=%s' % (symbol, api_key))
+            res = requests.get('https://eodhistoricaldata.com/api/eod/%s?api_token=%s&fmt=json' % (symbol, api_key))
             if ((res.status_code >= 300) | (res.status_code < 200)) & (res.status_code < 400):
                 raise ConnectionError('EOD: Connection Error')
             
@@ -160,7 +160,7 @@ class EODHistorical:
                 else:
                     raise KeyError('Cannot retrieve EOD for Symbol.')
             else:
-                self.prices = pd.read_csv(StringIO(res.text))[:-1]
+                self.prices = pd.DataFrame(res.json())
             
     def __init__(self, api_key, symbol, allow_empty=True):
         self.fundamentals = EODHistorical.Fundamentals(api_key, symbol, allow_empty)
